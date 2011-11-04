@@ -1,14 +1,15 @@
+!http://travis-ci.org/wenzowski/cobweb.png(Travis CI Build Status)!:http://travis-ci.org/wenzowski/cobweb
 
-h1. Cobweb v0.0.6
+h1. Cobweb v0.0.8
 
-h2. Intro 
-  
+h2. Intro
+
   CobWeb has two functions.  Firstly it is a http client that allows get and head requests returning a hash of data relating to the requested resource.  The second main function is to utilize this combined with the power of Resque to cluster the crawls allowing you crawl quickly.
-  
+
   When running on resque, passing in a Class and queue name it will enqueue all resources to this queue for processing, passing in the hash it has generated.  You then implement the perform method to process the resource for your own application.
-  
-  The data available in the returned hash are:  
-  
+
+  The data available in the returned hash are:
+
   * :url - url of the resource requested
   * :status_code - status code of the resource requested
   * :mime_type - content type of the resource
@@ -24,7 +25,7 @@ h2. Intro
     ** :related - url's from link tags
     ** :scripts - url's from script tags
     ** :styles - url's from within link tags with rel of stylesheet and from url() directives with stylesheets
-    
+
   The source for the links can be overridden, contact me for the syntax (don't have time to put it into this documentation, will as soon as i have time!)
 
 h2. Installation
@@ -40,16 +41,16 @@ h4. new(options)
 Creates a new crawler object based on a base_url
 
   * options - Options are passed in as a hash,
-  
+
     ** :follow_redirects - transparently follows redirects and populates the :redirect_through key in the content hash (Default: true)
-    ** :redirect_limit   - sets the limit to be used for concurrent redirects (Default: 10) 
-    ** :processing_queue - specifies the processing queue for content to be sent to (Default: ContentProcessJob) 
+    ** :redirect_limit   - sets the limit to be used for concurrent redirects (Default: 10)
+    ** :processing_queue - specifies the processing queue for content to be sent to (Default: ContentProcessJob)
     ** :debug            - enables debug output (Default: false)
     ** :quiet            - hides default output (Default: false)
     ** :cache            - sets the ttl for caching pages, set to nil to disable caching (Default: 300)
     ** :timeout          - http timeout for requests (Default: 10)
     ** :redis_options    - hash containing the initialization options for redis (e.g. {:host => "redis.mydomain.com"}
-    
+
 bq. crawler = CobWeb.new(:follow_redirects => false)
 
 h4. start(base_url)

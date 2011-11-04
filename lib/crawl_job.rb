@@ -1,6 +1,6 @@
 class CrawlJob
-  
-  require "net/https"  
+
+  require "net/https"
   require "uri"
   require "redis"
 
@@ -26,7 +26,7 @@ class CrawlJob
   # statistics[:status_counts][xxx]
 
   def self.perform(content_request)
-    # change all hash keys to symbols    
+    # change all hash keys to symbols
     content_request.deep_symbolize_keys
     redis = NamespacedRedis.new(Redis.new(content_request[:redis_options]), "cobweb-#{content_request[:crawl_id]}")
     @absolutize = Absolutize.new(content_request[:url], :output_debug => false, :raise_exceptions => false, :force_escaping => false, :remove_anchors => true)
@@ -35,7 +35,7 @@ class CrawlJob
     crawl_counter = redis.get("crawl-counter").to_i
     queue_counter = redis.get("queue-counter").to_i
     unless redis.sismember "crawled", content_request[:url]
-      
+
       # increment counter and check we haven't hit our crawl limit
       redis.incr "crawl-counter"
       crawl_counter += 1
@@ -98,7 +98,7 @@ class CrawlJob
             puts "Checking if #{link} matches #{redis.get("base_url")} as internal?" if content_request[:debug]
             if link.to_s.match(Regexp.new("^#{redis.get("base_url")}"))
               puts "Matched as #{link} as internal"
-              unless redis.sismember("crawled", link) or redis.sismember("queued", link)   
+              unless redis.sismember("crawled", link) or redis.sismember("queued", link)
                 if queue_counter <= content_request[:crawl_limit].to_i
                   new_request = content_request.clone
                   new_request[:url] = link
@@ -128,8 +128,8 @@ class CrawlJob
 
     # detect finished state
 
-    if queue_counter == crawl_counter or content_request[:crawl_limit].to_i <= crawl_counter 
-     
+    if queue_counter == crawl_counter or content_request[:crawl_limit].to_i <= crawl_counter
+
       puts "queue_counter: #{queue_counter}"
       puts "crawl_counter: #{crawl_counter}"
       puts "crawl_limit: #{content_request[:crawl_limit]}"
@@ -142,9 +142,9 @@ class CrawlJob
       stats[:crawl_counter] = redis.get "crawl_counter"
       stats[:queue_counter] = redis.get "queue_counter"
       stats[:crawled] = redis.smembers "crawled"
-      
-      Resque.enqueue(const_get(content_request[:crawl_finished_queue]), stats.merge({:source_id => content_request[:source_id]}))      
-      
+
+      Resque.enqueue(const_get(content_request[:crawl_finished_queue]), stats.merge({:source_id => content_request[:source_id]}))
+
       ap stats
     end
   end
@@ -162,5 +162,4 @@ class CrawlJob
     end
   end
 
-  
 end

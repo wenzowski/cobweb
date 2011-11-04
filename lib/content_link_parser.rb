@@ -1,4 +1,3 @@
-
 class ContentLinkParser
 
   require "nokogiri"
@@ -8,7 +7,7 @@ class ContentLinkParser
     @options = options
     @url = url
     @doc = Nokogiri::HTML(content)
-    
+
     base_url = @url.to_s
     if @doc.at("base[href]")
       base_url = @doc.at("base[href]").attr("href").to_s
@@ -20,27 +19,27 @@ class ContentLinkParser
     @options[:tags][:images] = [["img[src]", "src"]]
     @options[:tags][:related] = [["link[rel]", "href"]]
     @options[:tags][:scripts] = [["script[src]", "src"]]
-    @options[:tags][:styles] = [["link[rel='stylesheet'][href]", "href"], ["style[@type^='text/css']", /url\("?(.*?)"?\)/]]    
-    
+    @options[:tags][:styles] = [["link[rel='stylesheet'][href]", "href"], ["style[@type^='text/css']", /url\("?(.*?)"?\)/]]
+
     #clear the default tags if required
     @options[:tags] = {} if @options[:ignore_default_tags]
     @options[:tags].merge!(@options[:additional_tags]) unless @options[:additional_tags].nil?
-    
+
   end
- 
+
   def link_data
     data = {}
     @options[:tags].keys.each do |key|
       data[key.to_sym] = self.instance_eval(key.to_s)
     end
     data
-  end  
-  
+  end
+
   def all_links
     data = link_data
     data.keys.map{|key| data[key]}.flatten.uniq
   end
-  
+
   def method_missing(m)
     if @options[:tags].keys.include?(m)
       links = []
@@ -53,10 +52,10 @@ class ContentLinkParser
       []
     end
   end
-  
+
   def find_matches(array, selector, attribute)
     if attribute.kind_of? String or attribute.kind_of? Symbol
-      @doc.css(selector).each do |tag|  
+      @doc.css(selector).each do |tag|
         uri = @absolutize.url(tag[attribute])
         array << uri.to_s
       end
@@ -68,4 +67,3 @@ class ContentLinkParser
   end
 
 end
-
