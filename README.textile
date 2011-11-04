@@ -4,7 +4,7 @@ h1. Cobweb v0.0.8
 
 h2. Intro
 
-  CobWeb has two functions.  Firstly it is a http client that allows get and head requests returning a hash of data relating to the requested resource.  The second main function is to utilize this combined with the power of Resque to cluster the crawls allowing you crawl quickly.
+  Cobweb has two functions.  Firstly it is a http client that allows get and head requests returning a hash of data relating to the requested resource.  The second main function is to utilize this combined with the power of Resque to cluster the crawls allowing you crawl quickly.
 
   When running on resque, passing in a Class and queue name it will enqueue all resources to this queue for processing, passing in the hash it has generated.  You then implement the perform method to process the resource for your own application.
 
@@ -51,7 +51,7 @@ Creates a new crawler object based on a base_url
     ** :timeout          - http timeout for requests (Default: 10)
     ** :redis_options    - hash containing the initialization options for redis (e.g. {:host => "redis.mydomain.com"}
 
-bq. crawler = CobWeb.new(:follow_redirects => false)
+bq. crawler = Cobweb::Spider.new(:follow_redirects => false)
 
 h4. start(base_url)
 

@@ -1,5 +1,5 @@
-class CrawlFinishedJob
-  require "ap"
+class Cobweb::CrawlFinishedJob
+  require 'ap'
 
   @queue = :crawl_finished_job
 

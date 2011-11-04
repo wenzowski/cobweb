@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe ContentLinkParser do
+describe Cobweb::ContentLinkParser do
 
   before(:each) do
     @base_url = "http://www.baseurl.com/"
     @content = File.read(File.dirname(__FILE__) + "/../samples/sample_html_links.html")
-    @content_parser = ContentLinkParser.new("http://sample-links.com/", @content)
+    @content_parser = Cobweb::ContentLinkParser.new("http://sample-links.com/", @content)
   end
 
   it "should load the sample document" do
@@ -15,7 +15,7 @@ describe ContentLinkParser do
 
   it "should create a content link parser" do
     @content_parser.should_not be_nil
-    @content_parser.should be_an_instance_of ContentLinkParser
+    @content_parser.should be_an_instance_of Cobweb::ContentLinkParser
   end
 
   describe "using default tags" do
@@ -96,7 +96,7 @@ describe ContentLinkParser do
 
   describe "ignoring default tags" do
     it "should not return any links" do
-      parser = ContentLinkParser.new("http://sample-links.com", @content, :ignore_default_tags => true)
+      parser = Cobweb::ContentLinkParser.new("http://sample-links.com", @content, :ignore_default_tags => true)
       parser.links.should be_empty
     end
   end

@@ -1,4 +1,4 @@
-class CobwebProcessJob
+class Cobweb::ProcessJob
   require "ap"
 
   @queue = :cobweb_process_job

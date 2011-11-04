@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe CobWeb do
+describe Cobweb::Spider do
 
   before(:each) do
 
@@ -16,7 +16,7 @@ describe CobWeb do
                         "Server" => "gws",
                         "X-XSS-Protection" => "1; mode=block"}
 
-    @cobweb = CobWeb.new :quiet => true, :cache => nil
+    @cobweb = Cobweb::Spider.new :quiet => true, :cache => nil
   end
 
   describe "with mock" do
@@ -69,7 +69,7 @@ describe CobWeb do
     end
 
     it "should generate a cobweb object" do
-      CobWeb.new.should be_an_instance_of CobWeb
+      Cobweb::Spider.new.should be_an_instance_of Cobweb::Spider
     end
 
     describe "get" do
@@ -130,7 +130,7 @@ describe CobWeb do
 
         before(:each) do
           @base_url = "http://redirect-me.com/redirect.html"
-          @cobweb = CobWeb.new(:follow_redirects => true, :quiet => true, :cache => nil)
+          @cobweb = Cobweb::Spider.new(:follow_redirects => true, :quiet => true, :cache => nil)
         end
 
         it "should flow through redirect" #do
@@ -155,7 +155,7 @@ describe CobWeb do
 
         #end
         it "should not follow with redirect disabled" do
-          @cobweb = CobWeb.new(:follow_redirects => false, :cache => nil)
+          @cobweb = Cobweb::Spider.new(:follow_redirects => false, :cache => nil)
           @mock_http_client.should_receive(:start).and_return(@mock_http_redirect_response)
 
           content = @cobweb.get(@base_url)

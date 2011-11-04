@@ -1,4 +1,4 @@
-class NamespacedRedis
+class Cobweb::NamespacedRedis
   def initialize(redis, namespace="")
     raise "redis must be supplied" if redis.nil?
     @redis = redis
