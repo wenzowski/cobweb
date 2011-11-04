@@ -2,7 +2,7 @@ source :rubygems
 
 gemspec
 
-group :development
+group :development do
   gem 'yajl-ruby', '~>0.8.2', :platforms => :mri # resque dependency not passed
 end
 
