@@ -2,6 +2,10 @@ source :rubygems
 
 gemspec
 
+group :development
+  gem 'yajl-ruby', '~>0.8.2', :platforms => :mri # resque dependency not passed
+end
+
 group :development, :guard do
   gem 'guard'
   gem 'guard-rspec'
