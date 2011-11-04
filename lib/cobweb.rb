@@ -133,33 +133,10 @@ class CobWeb
         end
       rescue SocketError => e
         puts "ERROR: #{e.message}"
-
-        ## generate a blank content
-        content = {}
-        content[:url] = uri.to_s
-        content[:response_time] = Time.now.to_f - request_time
-        content[:status_code] = 0
-        content[:length] = 0
-        content[:body] = ""
-        content[:error] = e.message
-        content[:mime_type] = "error/dnslookup"
-        content[:headers] = {}
-        content[:links] = {}
-
+        content = blank_content(uri, e.message, "error/dnslookup")        
       rescue Timeout::Error => e
         puts "ERROR: #{e.message}"
-
-        ## generate a blank content
-        content = {}
-        content[:url] = uri.to_s
-        content[:response_time] = Time.now.to_f - request_time
-        content[:status_code] = 0
-        content[:length] = 0
-        content[:body] = ""
-        content[:error] = e.message
-        content[:mime_type] = "error/serverdown"
-        content[:headers] = {}
-        content[:links] = {}
+        content = blank_content(uri, e.message, "error/serverdown")
       end
     end
     content
@@ -234,36 +211,28 @@ class CobWeb
         end
       rescue SocketError => e
         puts "ERROR: #{e.message}"
-
-        ## generate a blank content
-        content = {}
-        content[:url] = uri.to_s
-        content[:response_time] = Time.now.to_f - request_time
-        content[:status_code] = 0
-        content[:length] = 0
-        content[:body] = ""
-        content[:error] = e.message
-        content[:mime_type] = "error/dnslookup"
-        content[:headers] = {}
-        content[:links] = {}
-
+        content = blank_content(uri, e.message, "error/dnslookup")
       rescue Timeout::Error => e
         puts "ERROR: #{e.message}"
-
-        ## generate a blank content
-        content = {}
-        content[:url] = uri.to_s
-        content[:response_time] = Time.now.to_f - request_time
-        content[:status_code] = 0
-        content[:length] = 0
-        content[:body] = ""
-        content[:error] = e.message
-        content[:mime_type] = "error/serverdown"
-        content[:headers] = {}
-        content[:links] = {}
+        content = blank_content(uri, e.message, "error/serverdown")
       end
 
       content
+    end
+    
+    private 
+    def blank_content(uri, message, mime_type) 
+       content = {
+         :url => uri.to_s,
+         :respone_time => Time.now.to_f - request_time,
+         :status_code => 0,
+         :length => 0,
+         :body => "",
+         :error => message,
+         :mime_type => mime_type,
+         :headers => {},
+         :links => {}
+       }
     end
   end
 end
