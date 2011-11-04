@@ -23,6 +23,7 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency 'absolutize'
   s.add_runtime_dependency 'nokogiri'
   s.add_runtime_dependency 'addressable'
+  s.add_runtime_dependency 'rake'  # pursuant to Rakefile `require 'resque/tasks'`
   s.add_runtime_dependency 'ap'    # AW: I think this is being used to render crawl statistics
   s.add_runtime_dependency 'crack' # AW: an undeclared dependency of 'ap'
 
