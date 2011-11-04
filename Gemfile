@@ -6,7 +6,7 @@ group :development do
   gem 'yajl-ruby', '~>0.8.2', :platforms => :mri # resque dependency not passed
 end
 
-group :development, :guard do
+group :guard do
   gem 'guard'
   gem 'guard-rspec'
   gem 'rb-inotify' if RUBY_PLATFORM.downcase.include?('linux')
