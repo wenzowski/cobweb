@@ -133,7 +133,7 @@ class CobWeb
         end
       rescue SocketError => e
         puts "ERROR: #{e.message}"
-        content = blank_content(uri, e.message, "error/dnslookup")        
+        content = blank_content(uri, e.message, "error/dnslookup")
       rescue Timeout::Error => e
         puts "ERROR: #{e.message}"
         content = blank_content(uri, e.message, "error/serverdown")
@@ -219,9 +219,9 @@ class CobWeb
 
       content
     end
-    
-    private 
-    def blank_content(uri, message, mime_type) 
+
+    private
+    def blank_content(uri, message, mime_type)
        content = {
          :url => uri.to_s,
          :respone_time => Time.now.to_f - request_time,
